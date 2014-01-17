@@ -1,0 +1,9 @@
+@startuml
+
+actor "Utilisateur"
+
+"Utilisateur" -> Système: Sélectionner un dossier
+"Utilisateur" -> Système: Vérifier les URLs
+"Utilisateur" <-- Système: Liste des URLs invalides\ndetous les fichiers du dossier
+
+@enduml

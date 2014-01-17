@@ -1,0 +1,7 @@
+@startuml
+
+Utilisateur--> (Obtenir la liste des URLs non\nvalides d'un fichier sélectionné)
+Utilisateur--> (Obtenir la liste des URLs non valides de\ntous les fichiers d'un dossier sélectionné)
+Utilisateur--> (Obtenir la liste des fichiers déjà vérifiés\net rejouer les vérifications au choix)
+
+@enduml

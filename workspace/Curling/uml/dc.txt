@@ -1,0 +1,27 @@
+@startuml
+class Files{
+-chemin
+-date
+-extention
++Files(String pAbsolutePath)
++Files(String pChemin, Date pCheck)
++getChemin()
++setChemin(String pChemin)
++getDate()
++setDate(Date pCheck)
++getExtension()
++setExtension()
+}
+
+class URLs{
+-url
++URLs()
++URLs(String pUrl)
++getURL()
++setUrl(String pUrl)
+}
+
+Files "1..*" -- "*" URLs : Contient
+
+hide class circle
+@enduml

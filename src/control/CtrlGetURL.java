@@ -1,7 +1,6 @@
 package control;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,16 +8,23 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import model.Files;
 import model.URLs;
+
+/************************************************************
+La classe CtrlGetURL réalise toutes les opérations pour obtenir les URLs.<BR>
+@author	Groupe 33
+@version	1.0
+*****************************/
 
 public class CtrlGetURL {
 	
-	public static Vector<URLs> getUrlsFromFile(File pFile)
+	public static Vector<URLs> getUrlsFromFile(Files pFile)
 	{
 		Vector<URLs> result = new Vector<URLs>();
 		
 		try{
-			InputStream ips=new FileInputStream(pFile.getAbsolutePath()); 
+			InputStream ips=new FileInputStream(pFile.getChemin()); 
 			InputStreamReader ipsr= new InputStreamReader(ips);
 			BufferedReader br= new BufferedReader(ipsr);
 			String ligne;

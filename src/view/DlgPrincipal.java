@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFileChooser;
 
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Vector;
@@ -21,8 +22,10 @@ import java.util.Vector;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
+import model.Files;
 import model.URLs;
 import control.CtrlGetURL;
+import control.CtrlHistory;
 import control.CtrlTestURL;
 
 public class DlgPrincipal extends JFrame {
@@ -37,13 +40,14 @@ public class DlgPrincipal extends JFrame {
 	private JButton btnNewButton_1 = new JButton("V\u00E9rifier les URLs...");
 	private int select;
 
+
 	/**
 	 * Create the frame.
 	 */
 	public DlgPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(450, 200, 550, 300);
-		contentPane = new JPanel();
+		setBounds(370, 50, 550, 300);
+		contentPane = new JPanel(new GridLayout(1,2));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -77,14 +81,21 @@ public class DlgPrincipal extends JFrame {
 		btFolder.setBounds(360, 83, 87, 23);
 		contentPane.add(btFolder);
 		
-		
+
+		//---------- boutton historique -----------
+		JButton btHisto = new JButton("Historique...");
+		listenerHisto ecoutHisto = new listenerHisto(this);
+		btHisto.addActionListener(ecoutHisto);
+		btHisto.setBounds(173, 138, 183, 23);
+		contentPane.add(btHisto);
 		
 		
 		btnNewButton_1.setEnabled(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(select == 1) {
-					File f = choixFile.getSelectedFile();
+					Files f = new Files(choixFile.getSelectedFile().getAbsolutePath());
+					CtrlHistory.updateHistory(f);
 					Vector<URLs> tabUrl = CtrlGetURL.getUrlsFromFile(f);
 					if (tabUrl.size() > 0) {
 						Vector<URLs> tabUrlKO = CtrlTestURL.checkListURLs(tabUrl);
@@ -109,9 +120,14 @@ public class DlgPrincipal extends JFrame {
 					};
 						
 					File[] filesSelected = filesFolder.listFiles(filesFilter);
+					Vector<Files> vecFiles = new Vector<Files>();
+					for (int i=0 ; i<filesSelected.length ; i++) {
+						vecFiles.add(new Files(filesSelected[i].getAbsolutePath()));
+						CtrlHistory.updateHistory(vecFiles.get(i));
+					}
 					Vector<URLs> tabUrl = new Vector<URLs>();
-					for(int i=0 ; i<filesSelected.length ; i++) {
-						tabUrl.addAll((CtrlGetURL.getUrlsFromFile(filesSelected[i])));
+					for(int i=0 ; i<vecFiles.size() ; i++) {
+						tabUrl.addAll((CtrlGetURL.getUrlsFromFile(vecFiles.get(i))));
 					}
 					if (tabUrl.size() > 0) {
 						Vector<URLs> tabUrlKO = CtrlTestURL.checkListURLs(tabUrl);
@@ -123,14 +139,15 @@ public class DlgPrincipal extends JFrame {
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "Pas d'URL dans le fichier.");
+						JOptionPane.showMessageDialog(null, "Pas d'URL dans le dossier.");
 					}
 					
 				}
 				
 			}
 		});
-		btnNewButton_1.setBounds(173, 158, 183, 23);
+		
+		btnNewButton_1.setBounds(173, 168, 183, 23);
 		contentPane.add(btnNewButton_1);
 	}
 	
@@ -179,7 +196,19 @@ public class DlgPrincipal extends JFrame {
 			       select=2;
 			    }
 			}
+		}
+			
+			//---------------- Histo ----------------
+			class listenerHisto implements ActionListener {
+				public listenerHisto (DlgPrincipal f)
+				{
+				}
+				public void actionPerformed(ActionEvent e) {
+					DlgHistorique histo = new DlgHistorique();
+					histo.setVisible(true);
+					}
+				  }
+				}
 		
-	}
 	
-}
+

@@ -1,0 +1,10 @@
+@startuml
+
+actor "Utilisateur"
+
+"Utilisateur"-> Système: Demande de l'historique
+"Utilisateur"<-- Système: Liste des fichiers
+"Utilisateur"-> Système: Sélectionner un ou plusieurs\nfichier(s) et vérifier les URLs
+"Utilisateur"<-- Système: Liste des URLs invalides\ndu/des fichier(s) sélectionné(s)
+
+@enduml

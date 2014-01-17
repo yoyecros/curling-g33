@@ -10,7 +10,7 @@ import java.util.Vector;
 import model.URLs;
 
 /************************************************************
-La classe CtrlTestURL réalise toutes les opérations de test des URLs<BR>
+La classe CtrlTestURL réalise toutes les opérations de test des URLs.<BR>
 @author	Groupe 33
 @version	1.0
 *****************************/

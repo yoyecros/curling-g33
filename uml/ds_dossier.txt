@@ -1,0 +1,43 @@
+@startuml
+
+actor ":Utilisateur" as u
+participant ":DlgPrincipal" as dp
+participant ":DlgListeURLs" as dl
+participant JFileChooser as jf
+participant JOptionPane as jo
+participant CtrlGetURL as cg
+participant CtrlTestURL as ct
+participant CtrlHistory as ch
+
+u -> dp : Click Sélectionner un dossier
+activate dp
+dp -> jf : new()
+activate jf
+u -> jf : Sélectionner dossier
+jf -> dp : dossier
+deactivate jf
+u -> dp : Click vérifier les URLs
+dp -> dp : File[] filesSelected
+dp -> cg : getUrlsFromFile(filesSelected[])
+cg -> cg : Vector<URLs> tabURLfromLine()
+cg -> dp : tabUrl
+
+alt tabUrl.size() > 0
+dp -> ct : checkListURLs(tabUrl)
+ct -> ct : Vector<URLs> tabUrlKO := checkURL()
+ct -> dp : tabUrlKO
+
+alt tabUrlKO.isEmpty()
+dp -> jo : showMessageDialog("Toutes les URLs sont valides.")
+else
+dp -> jo : showMessageDialog("Il y a "+tabUrlKO.size()+" URL(s) non valide(s).")
+dp -> dl : new(tabUrlKO)
+end
+
+else
+dp -> jo : showMessageDialog("Pas d'URL dans le dossier.")
+end
+
+dp -> ch : updateHistory(filesSelected[])
+
+@enduml
